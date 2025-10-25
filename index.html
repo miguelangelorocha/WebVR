@@ -4,7 +4,7 @@
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
   </head>
   <body>
-    <a-scene>
+    <a-scene vr-mode-ui="enabled: true">
       <a-camera position="0 1.6 0"></a-camera>
       <a-sphere src="#cameraTexture" radius="50" segments-width="64" segments-height="64" material="side: back"></a-sphere>
     </a-scene>
@@ -15,7 +15,11 @@
       video.autoplay = true;
       video.style.display = 'none'; // Hide the video element
 
-      navigator.mediaDevices.getUserMedia({ video: true })
+      navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: 'user' // Select front camera (user-facing)
+        } 
+      })
         .then(stream => {
           video.srcObject = stream;
           video.onloadedmetadata = () => {
