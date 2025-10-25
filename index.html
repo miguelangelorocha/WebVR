@@ -5,7 +5,7 @@
   </head>
   <body>
     <a-scene vr-mode-ui="enabled: true">
-      <a-camera position="0 1.6 0"></a-camera>
+      <a-camera position="0 1.6 0" spectator="true"></a-camera>
       <a-sphere src="#cameraTexture" radius="50" segments-width="64" segments-height="64" material="side: back"></a-sphere>
     </a-scene>
 
@@ -17,7 +17,7 @@
 
       navigator.mediaDevices.getUserMedia({ 
         video: { 
-          facingMode: 'user' // Select front camera (user-facing)
+          facingMode: { exact: "environment" },
         } 
       })
         .then(stream => {
