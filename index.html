@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-camera position="0 1.6 0"></a-camera>
+      <a-sphere src="#cameraTexture" radius="50" segments-width="64" segments-height="64" material="side: back"></a-sphere>
+    </a-scene>
+
+    <script>
+      // Get camera stream and apply to an A-Frame texture
+      const video = document.createElement('video');
+      video.autoplay = true;
+      video.style.display = 'none'; // Hide the video element
+
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            const scene = document.querySelector('a-scene');
+            const cameraSphere = document.querySelector('a-sphere');
+
+            // Create a texture from the video stream
+            const texture = new THREE.VideoTexture(video);
+            texture.minFilter = THREE.LinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            texture.format = THREE.RGBAFormat;
+
+            // Apply the texture to the sphere
+            cameraSphere.setAttribute('material', 'src', texture);
+          };
+        })
+        .catch(err => {
+          console.error("Error accessing camera:", err);
+        });
+    </script>
+  </body>
+</html>
